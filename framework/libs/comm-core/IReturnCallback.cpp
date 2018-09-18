@@ -14,24 +14,26 @@ public:
     {
     }
 
-    virtual void onReturn(int method, ...)
+    virtual void onReturn(int method, int result)
     {
         printf("%s, method %d\n", __FUNCTION__, method);
         Parcel data, reply;
         data.writeInterfaceToken(IReturnCallback::getInterfaceDescriptor());
         data.writeInt32(method);
 
-        va_list ap;
-        va_start(ap, method);
+        //va_list ap;
+        //va_start(ap, method);
 
         if (bpReturnMethod != 0) {
-            bpReturnMethod(method, data, ap);
+            //bpReturnMethod(method, data, ap);
         }
+        data.writeInt32(result);
 
-        va_end(ap);
+        //va_end(ap);
 
         status_t status = remote()->transact(IReturnCallback::ON_RETURN, data, &reply);
         if (status != NO_ERROR) {
+            printf("ERROR: %d\n", status);
             return;
         }
         return;
@@ -49,9 +51,11 @@ status_t BnReturnCallback::onTransact(
         case ON_RETURN: {
             CHECK_INTERFACE(IReturnCallback, data, reply);
             int method = data.readInt32();
-            if (bnReturnMethod != 0) {
-                bnReturnMethod(method, data);
-            }
+            int result = data.readInt32();
+            //if (bnReturnMethod != 0) {
+            //    bnReturnMethod(method, data);
+            //}
+            onReturn(method, result);
             return NO_ERROR;
         } break;
 

@@ -5,6 +5,7 @@
 #include <utils/String16.h>
 #include <binder/IInterface.h>
 #include <binder/Parcel.h>
+#include <binder/Parcelable.h>
 
 namespace android {
 
@@ -12,6 +13,7 @@ class IReturnCallback;
 class IEventListener;
 class CommunicationModule;
 class BaseModuleFactory;
+class SomeArgs;
 
 #define RESULT_NO_ERROR         (0)
 #define RESULT_ERROR            (-1)
@@ -19,7 +21,7 @@ class BaseModuleFactory;
 #define RESULT_NO_SUCH_METHOD   (-20)
 #define RESULT_UNKNOWN_EVENT    (-30)
 
-#define COMM_SERVICE_NAME "comm_service_server"
+#define MODULE_COMM_SERVICE "comm_service_server"
 #define RETURN_CALLBACK_DESC "native.IReturnCallback"
 #define EVENT_LISTENER_DESC "native.IEventListener"
 
@@ -28,6 +30,8 @@ class BaseModuleFactory;
 #define METHOD_RETURN_MASK      20000
 
 #define EVENT_MASK              30000
+
+
 
 // 同步方法调用
 int methodCall(const char* from, const char* to, const int method, ...);

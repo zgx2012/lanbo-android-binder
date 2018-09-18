@@ -41,8 +41,12 @@ sp<IArithmeticService> getArithmeticService(const char* serviceName) {
 int main(int argc, char* const argv[])
 {
     //sp<ProcessState> proc(ProcessState::self());
-    sp<IArithmeticService> pService = getArithmeticService(ARITHMETIC_SERVICE_NAME);
-    printf("[client] call Add result = %d \n",pService->add(10, 20));
+    sp<IArithmeticService> pService = getArithmeticService(ARITHMETIC_SERVICE_NAME, 1);
+    if (pService != 0) {
+        printf("[client] call Add result = %d \n",pService->add(10, 20));
+    } else {
+        printf("[client] no service found\n");
+    }
 
     //ProcessState::self()->startThreadPool();
     //IPCThreadState::self()->joinThreadPool();

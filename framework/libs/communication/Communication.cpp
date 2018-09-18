@@ -6,9 +6,11 @@ namespace android
 {
 void bpReturnMethodImpl(int method, Parcel& data, va_list ap)
 {
+    printf("%s: %d\n", __FUNCTION__, method);
     switch (method) {
         case METHOD_RETURN_ADD: {
             int result = va_arg(ap, int);
+            printf("%s: %d\n", __FUNCTION__, result);
             data.writeInt32(result);
         } break;
     }
@@ -16,9 +18,11 @@ void bpReturnMethodImpl(int method, Parcel& data, va_list ap)
 
 void bnReturnMethodImpl(int method, const Parcel& data)
 {
+    printf("%s: %d\n", __FUNCTION__, method);
     switch (method) {
         case METHOD_RETURN_ADD: {
             int result = data.readInt32();
+            printf("%s, result: %d\n", __FUNCTION__, result);
         } break;
     }
 }

@@ -49,6 +49,7 @@ private:
     int mValue;
     virtual void onFirstRef();
     Mutex mServiceLock;
+    sp<IReturnCallback> mCallback;
 }; // end class ModuleAService
 
 }; // end namespace android

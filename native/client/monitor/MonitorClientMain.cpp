@@ -17,7 +17,11 @@ int main(int argc, char* const argv[])
 {
     //sp<ProcessState> proc(ProcessState::self());
     sp<IMonitorService> pService = getMonitorService(MONITOR_SERVICE_NAME);
-    pService->setValue(10);
+    if (pService != 0) {
+        pService->setValue(10);
+    } else {
+        printf("[client] no service found\n");
+    }
 
     //ProcessState::self()->startThreadPool();
     //IPCThreadState::self()->joinThreadPool();

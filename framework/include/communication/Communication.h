@@ -9,7 +9,6 @@ namespace android {
 #define MODULE_NAME_A "module_a"
 #define MODULE_NAME_B "module_b"
 #define MODULE_NAME_C "module_c"
-#define MODULE_COMM_SERVICE COMM_SERVICE_NAME
 
 //-----------------------------------------------------------------
 #define METHOD_SET_VALUE            (METHOD_MASK | 0x01)
@@ -19,6 +18,8 @@ namespace android {
 #define METHOD_RETURN_ADD       (METHOD_RETURN_MASK | 0x01)
 //-----------------------------------------------------------------
 #define EVENT_HELLO             (EVENT_MASK | 0x01)
+
+#define MAX_EVENT_NUM           (MIN(EVENT_MASK>>1, 200))
 //-----------------------------------------------------------------
 
 void bpReturnMethodImpl(int method, Parcel& data, va_list ap);

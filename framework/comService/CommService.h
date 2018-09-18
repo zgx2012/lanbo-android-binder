@@ -34,8 +34,15 @@ public:
 
     // ICommService
     int sendEvent(const char* from, const char* to, int event);
+    int sendEventI(const char* from, const char* to, int event, int p1);
+    int sendEventII(const char* from, const char* to, int event, int p1, int p2);
+    int sendEventIB(const char* from, const char* to, int event, int p1, bool p2);
+    int sendEventIS(const char* from, const char* to, int event, int p1, String16& p2);
+    int sendEventB(const char* from, const char* to, int event, bool p1);
+    int sendEventBB(const char* from, const char* to, int event, bool p1, bool p2);
+    int sendEventBS(const char* from, const char* to, int event, bool p1, String16& p2);
+    int sendEventS(const char* from, const char* to, int event, String16& p2);
     int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
-
 
 private:
 

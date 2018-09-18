@@ -42,6 +42,8 @@ public:
         data.writeInt32(method);
         data.writeInt32(a);
         data.writeInt32(b);
+        printf("callback = %p\n", callback.get());
+        printf("bpBinder = %p\n", IInterface::asBinder(callback).get());
         data.writeStrongBinder(IInterface::asBinder(callback));
         status_t status = remote()->transact(IModuleAService::ADD_RETURN, data, &reply);
         if (status != NO_ERROR) {

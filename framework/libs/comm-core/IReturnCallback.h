@@ -17,7 +17,7 @@ public:
 public:
     DECLARE_META_INTERFACE(ReturnCallback);
     // 定义纯虚函数, 定义接口
-    virtual void onReturn(int method, ...) = 0;
+    virtual void onReturn(int method, int result) = 0;
 }; // end IReturnCallback
 
 class BnReturnCallback : public BnInterface<IReturnCallback>

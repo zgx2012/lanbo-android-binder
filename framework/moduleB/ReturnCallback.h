@@ -19,7 +19,7 @@ class ReturnCallback :
 public:
             ReturnCallback();
     virtual ~ReturnCallback();
-    virtual void onReturn(int method, ...);
+    virtual void onReturn(int method, int result);
     virtual void onMethod(va_list ap) = 0;
 
 private:

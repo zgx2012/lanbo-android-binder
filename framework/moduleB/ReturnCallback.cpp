@@ -24,16 +24,17 @@ ReturnCallback::~ReturnCallback()
     ALOGI("%s", __FUNCTION__);
 }
 
-void ReturnCallback::onReturn(int method, ...)
+void ReturnCallback::onReturn(int method, int result)
 {
     printf("%s, method = %d\n", __FUNCTION__, method);
 
-    va_list ap;
-    va_start(ap, method);
+    //va_list ap;
+    //va_start(ap, method);
 
-    onMethod(ap);
+    //onMethod(ap);
+    printf("%s, result = %d\n", __FUNCTION__, result);
 
-    va_end(ap);
+    //va_end(ap);
 }
 
 void MethodAddCallback::onMethod(va_list ap)

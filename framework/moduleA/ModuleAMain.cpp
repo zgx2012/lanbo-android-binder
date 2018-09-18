@@ -46,6 +46,7 @@ int main(int argc, char* const argv[])
     pthread_t tid;
     int err = pthread_create(&tid, NULL, thread, NULL);
 
+    //ProcessState::self()->setThreadPoolMaxThreadCount(10);
     ProcessState::self()->startThreadPool();
     IPCThreadState::self()->joinThreadPool();
     return 0;

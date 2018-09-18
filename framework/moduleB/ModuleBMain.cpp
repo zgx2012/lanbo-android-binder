@@ -25,11 +25,19 @@ void *thread(void *arg)
 {
     sleep(1);
 
-    methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, new MethodAddCallback(), 10, 20);
+    //MethodAddCallback* p = new MethodAddCallback();
+    sp<MethodAddCallback> p = new MethodAddCallback();
+    methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
-    sendEvent(MODULE_NAME_B, MODULE_NAME_A, EVENT_HELLO);
+    //sleep(1);
+    //methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
-    methodCall(MODULE_NAME_B, MODULE_NAME_A, METHOD_SET_VALUE, 100);
+    //sleep(1);
+    //methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
+
+    //sendEvent(MODULE_NAME_B, MODULE_NAME_A, EVENT_HELLO);
+    //methodCall(MODULE_NAME_B, MODULE_NAME_A, METHOD_SET_VALUE, 100);
+
     //sendToModuleA(MODULE_NAME_B, EVENT_ADD, 3, 4);
     //sendToModuleB(MODULE_NAME_B, EVENT_ADD, 5, 6);
     //sendToModuleC(MODULE_NAME_B, EVENT_ADD, 7, 8);
@@ -49,6 +57,9 @@ int main(int argc, char* const argv[])
     bnReturnMethod = bnReturnMethodImpl;
 
     gModuleFactory = &(ModuleFactory::getInstance());
+    sp<MethodAddCallback> p = new MethodAddCallback();
+    methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 10, 20);
+
     pthread_t tid;
     int err = pthread_create(&tid, NULL, thread, NULL);
 

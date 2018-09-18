@@ -10,8 +10,8 @@
 #include "commService/ICommService.h"
 #include "CommonService.h"
 
-DECLARE_GET_SERVICE(CommServiceService)
-IMPLEMENT_GET_SERVICE(CommServiceService)
+DECLARE_GET_SERVICE(CommService)
+IMPLEMENT_GET_SERVICE(CommService)
 
 namespace android
 {
@@ -25,7 +25,7 @@ int CommServiceModule::sendEvent(const char* from, const char* to, const int eve
         printf("[CommServiceModule::dispatchEvent] not such service: [%s]\n", COMM_SERVICE_NAME);
         result = RESULT_NO_SUCH_SERVICE;
     } else {
-        int result = pService->dispatchEvent(from, to, event);
+        int result = pService->sendEvent(from, to, event);
     }
 
     return result;

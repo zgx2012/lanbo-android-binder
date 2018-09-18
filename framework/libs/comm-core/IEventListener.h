@@ -17,7 +17,7 @@ public:
 public:
     DECLARE_META_INTERFACE(EventListener);
     // 定义纯虚函数, 定义接口
-    virtual void onEvent(int event, ...) = 0;
+    virtual void onEvent(int event) = 0;
 }; // end IEventListener
 
 class BnEventListener : public BnInterface<IEventListener>

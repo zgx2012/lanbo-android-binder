@@ -14,21 +14,12 @@ public:
     {
     }
 
-    virtual void onEvent(int event, ...)
+    virtual void onEvent(int event)
     {
         printf("%s, event %d\n", __FUNCTION__, event);
         Parcel data, reply;
         data.writeInterfaceToken(IEventListener::getInterfaceDescriptor());
         data.writeInt32(event);
-
-        va_list ap;
-        va_start(ap, event);
-
-        if (bpEvent != 0) {
-            bpEvent(event, data, ap);
-        }
-
-        va_end(ap);
 
         status_t status = remote()->transact(IEventListener::ON_EVENT, data, &reply);
         if (status != NO_ERROR) {
@@ -52,6 +43,7 @@ status_t BnEventListener::onTransact(
             if (bnEvent != 0) {
                 bnEvent(event, data);
             }
+            onEvent(event);
             return NO_ERROR;
         } break;
 

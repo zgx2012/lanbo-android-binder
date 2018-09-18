@@ -7,6 +7,7 @@
 #include "ModuleA.h"
 #include "ModuleB.h"
 #include "ModuleC.h"
+#include "CommServiceModule.h"
 
 namespace android
 {
@@ -31,7 +32,7 @@ public:
 
     inline CommunicationModule* getCommService() {
         if (pCommService == 0) {
-            pCommService = new ModuleC(MODULE_COMM_SERVICE);
+            pCommService = new CommServiceModule(MODULE_COMM_SERVICE);
         }
         return pCommService;
     }

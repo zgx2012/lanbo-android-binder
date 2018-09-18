@@ -43,7 +43,7 @@ int methodCallReturn(const char* from, const char* to, const int method,
 
 int addEventListener(const char* from, const sp<IEventListener>& listener, const std::vector<int>& eventVector)
 {
-    int result = getModule(COMM_SERVICE_NAME)->addEventListener(from, listener, eventVector);
+    int result = getModule(MODULE_COMM_SERVICE)->addEventListener(from, listener, eventVector);
     return result;
 }
 
@@ -51,14 +51,14 @@ int sendEvent(const char* from, const char* to, const int event)
 {
     printf("sendEvent [%s] -> [%s]:", from, to);
     //int result = getModule(to)->dispatchEvent(from, event, ap);
-    int result = getModule(COMM_SERVICE_NAME)->sendEvent(from, to, event);
+    int result = getModule(MODULE_COMM_SERVICE)->sendEvent(from, to, event);
     return result;
 }
 
 int sendEventSync(const char* from, const char* to, const int event)
 {
     printf("sendEventSync [%s] -> [%s]:", from, to);
-    int result = getModule(COMM_SERVICE_NAME)->sendEventSync(from, to, event);
+    int result = getModule(MODULE_COMM_SERVICE)->sendEventSync(from, to, event);
     return result;
 }
 

@@ -3,30 +3,18 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
-	ModuleA.cpp \
-	ModuleB.cpp \
-	ModuleC.cpp \
-	CommServiceModule.cpp \
-	ModuleFactory.cpp \
-	Communication.cpp \
+	IMatrixService.cpp
 
 LOCAL_SHARED_LIBRARIES := \
 	libbinder \
 	libutils \
-	libbasecomm \
-	libmoduleA \
-	libmoduleB \
-	libmoduleC \
-	libcommservice \
 	#liblog \
 
 LOCAL_C_INCLUDES += \
     $(JNI_H_INCLUDE) \
 	$(LOCAL_PATH)/../../include \
-	$(LOCAL_PATH)/../comm-core \
-	$(LOCAL_PATH)/../../include/communication \
 
-LOCAL_MODULE:= libcommunication
+LOCAL_MODULE:= libmatrix
 LOCAL_PRELINK_MODULE := false
 
 LOCAL_MODULE_TAGS := optional

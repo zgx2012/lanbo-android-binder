@@ -1,5 +1,5 @@
-#ifndef FRAMEWORKS_COMMSERVICE_H
-#define FRAMEWORKS_COMMSERVICE_H
+#ifndef FRAMEWORKS_MODULE_COMMSERVICE_H
+#define FRAMEWORKS_MODULE_COMMSERVICE_H
 
 #include "Communication.h"
 #include "CommunicationModule.h"
@@ -16,9 +16,9 @@ public:
     ~CommServiceModule(){}
     // 重载父类的函数
     int sendEvent(const char* from, const char* to, const int event);
-    int addEventListener(const char* name, const sp<IEventListener>& listener, const std::<int> eventVector);
+    int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
 }; // end class CommService
 
 }; // end namespace android
 
-#endif //FRAMEWORKS_COMMSERVICE_H
+#endif //FRAMEWORKS_MODULE_COMMSERVICE_H
