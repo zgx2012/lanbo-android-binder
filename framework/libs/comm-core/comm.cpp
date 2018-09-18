@@ -54,6 +54,13 @@ int sendEvent(const char* from, const char* to, const int event)
     int result = getModule(MODULE_COMM_SERVICE)->sendEvent(from, to, event);
     return result;
 }
+int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable)
+{
+    printf("sendEvent [%s] -> [%s]:", from, to);
+    //int result = getModule(to)->dispatchEvent(from, event, ap);
+    int result = getModule(MODULE_COMM_SERVICE)->sendEvent(from, to, event, parcelable);
+    return result;
+}
 
 int sendEventSync(const char* from, const char* to, const int event)
 {

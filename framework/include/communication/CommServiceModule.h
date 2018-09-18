@@ -16,6 +16,7 @@ public:
     ~CommServiceModule(){}
     // 重载父类的函数
     int sendEvent(const char* from, const char* to, const int event);
+    int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable);
     int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
 }; // end class CommService
 

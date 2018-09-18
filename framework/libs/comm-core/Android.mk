@@ -7,6 +7,7 @@ LOCAL_SRC_FILES:= \
 	CommunicationModule.cpp \
 	IReturnCallback.cpp \
 	IEventListener.cpp \
+	SomeArgs.cpp \
 
 LOCAL_SHARED_LIBRARIES := \
 	libbinder \

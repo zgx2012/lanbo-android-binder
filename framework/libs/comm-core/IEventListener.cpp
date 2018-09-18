@@ -1,4 +1,5 @@
 #include "IEventListener.h"
+#include "SomeArgs.h"
 //#include "CommonService.h"
 
 namespace android {
@@ -14,12 +15,13 @@ public:
     {
     }
 
-    virtual void onEvent(int event)
+    virtual void onEvent(int event, const Parcelable* parcelable)
     {
         printf("%s, event %d\n", __FUNCTION__, event);
         Parcel data, reply;
         data.writeInterfaceToken(IEventListener::getInterfaceDescriptor());
         data.writeInt32(event);
+        data.writeParcelable(*parcelable);
 
         status_t status = remote()->transact(IEventListener::ON_EVENT, data, &reply);
         if (status != NO_ERROR) {
@@ -40,11 +42,12 @@ status_t BnEventListener::onTransact(
         case ON_EVENT: {
             CHECK_INTERFACE(IEventListener, data, reply);
             int event = data.readInt32();
-            if (bnEvent != 0) {
-                bnEvent(event, data);
+            Parcelable* parcelable = new SomeArgs();
+            status_t result = data.readParcelable(parcelable);
+            if (result == NO_ERROR) {
+                onEvent(event, parcelable);
             }
-            onEvent(event);
-            return NO_ERROR;
+            return result;
         } break;
 
         default:

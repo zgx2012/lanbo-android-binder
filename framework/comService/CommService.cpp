@@ -21,59 +21,11 @@ int CommService::sendEvent(const char* from, const char* to, int event)
     return RESULT_NO_ERROR;
 }
 
-int CommService::sendEventI(const char* from, const char* to, int event, int p1) {
+int CommService::sendEvent(const char* from, const char* to, int event, const Parcelable* parcelable)
+{
     printf("%s: %d\n", __FUNCTION__, event);
     AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventII(const char* from, const char* to, int event, int p1, int p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventIB(const char* from, const char* to, int event, int p1, bool p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventIS(const char* from, const char* to, int event, int p1, String16& p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventB(const char* from, const char* to, int event, bool p1) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventBB(const char* from, const char* to, int event, bool p1, bool p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventBS(const char* from, const char* to, int event, bool p1, String16& p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
-    return RESULT_NO_ERROR;
-}
-
-int CommService::sendEventS(const char* from, const char* to, int event, String16& p2) {
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-
+    //
     return RESULT_NO_ERROR;
 }
 

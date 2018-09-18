@@ -42,6 +42,7 @@ int sendEventSync(const char* from, const char* to, const int event);
 
 // 异步发送消息
 int sendEvent(const char* from, const char* to, const int event);
+int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable);
 
 // 添加消息监听, 用于接收其他程序发送的消息
 int addEventListener(const char* from, const sp<IEventListener>& listener, const std::vector<int>& eventVector);

@@ -3,14 +3,19 @@
 
 #include "comm.h"
 
+namespace android
+{
+
 class SomeArgs : public Parcelable
 {
+public:
     SomeArgs(){}
-    ~SomeArgs(){}
+    virtual ~SomeArgs(){}
 
-    status_t writeToParcel(Parcel* parcel) const;
-    status_t readFromParcel(const Parcel* parcel);
+    virtual status_t writeToParcel(Parcel* parcel) const;
+    virtual status_t readFromParcel(const Parcel* parcel);
 
+public:
     String16 arg1;
     String16 arg2;
     String16 arg3;
@@ -23,6 +28,8 @@ class SomeArgs : public Parcelable
     int argi4;
     int argi5;
     int argi6;
+};
+
 };
 
 #endif //FRAMEWORKS_SOMEARGS_H

@@ -28,6 +28,21 @@ public:
         return reply.readInt32();
     }
 
+    virtual int sendEvent(const char* from, const char* to, int event, const Parcelable* parcelable)
+    {
+        Parcel data, reply;
+        data.writeInterfaceToken(ICommService::getInterfaceDescriptor());
+        data.writeCString(from);
+        data.writeCString(to);
+        data.writeInt32(event);
+        data.writeParcelable(*parcelable);
+        status_t status = remote()->transact(ICommService::SEND_EVENT, data, &reply);
+        if (status != NO_ERROR) {
+            return RESULT_ERROR;
+        }
+        return reply.readInt32();
+    }
+
     virtual int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector)
     {
         Parcel data, reply;

@@ -15,6 +15,7 @@ public:
     CommunicationModule(const String16& name);
     virtual ~CommunicationModule();
     virtual int sendEvent(const char* name, const char* to, const int event);
+    virtual int sendEvent(const char* name, const char* to, const int event, const Parcelable* parcelable);
     virtual int sendEventSync(const char* name, const char* to, const int event);
     virtual int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
     virtual int methodCall(const char* name, const int method, va_list ap);
