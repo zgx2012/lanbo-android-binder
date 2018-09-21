@@ -13,19 +13,12 @@
 
 namespace android {
 
-int CommService::sendEvent(const char* from, const char* to, int event)
-{
-    printf("%s: %d\n", __FUNCTION__, event);
-    AutoMutex lock(mServiceLock);
-    //
-    return RESULT_NO_ERROR;
-}
-
 int CommService::sendEvent(const char* from, const char* to, int event, const Parcelable* parcelable)
 {
     printf("%s: %d\n", __FUNCTION__, event);
     AutoMutex lock(mServiceLock);
-    //
+    QueueEvent::Event e(event, parcelable);
+    EventManager.instance().putEvent(e);
     return RESULT_NO_ERROR;
 }
 
@@ -33,11 +26,27 @@ int CommService::addEventListener(const char* name, const sp<IEventListener>& li
 {
     AutoMutex lock(mServiceLock);
 
-    // TODO 将listener, name 保存起来
+    // 将listener, name 保存起来
+    ListenerManager.instance().addListener(listener, String16(name), eventVector);
 
     return RESULT_NO_ERROR;
 }
 
+int CommService::removeEventListener(const sp<IEventListener>& listener)
+{
+
+    AutoMutex lock(mServiceLock);
+
+    ListenerManager.instance().removeListener(listener);
+
+    return RESULT_NO_ERROR;
+}
+
+int CommService::dump()
+{
+    printf("dump\n");
+    return RESULT_NO_ERROR;
+}
 // ----------------------------------------------------------------------
 
 status_t BnCommService::onTransact(
@@ -49,7 +58,9 @@ status_t BnCommService::onTransact(
             const char* name = data.readCString();
             const char* to = data.readCString();
             int event = data.readInt32();
-            int result = sendEvent(name, to, event);
+            SomeArgs args;
+            data.readParcelable(&args);
+            int result = sendEvent(name, to, event, &args);
             reply->writeInt32(result);
             return NO_ERROR;
         } break;
@@ -61,6 +72,22 @@ status_t BnCommService::onTransact(
             std::vector<int> eventVector;
             data.readInt32Vector(&eventVector);
             int result = addEventListener(name, listener, eventVector);
+            reply->writeInt32(result);
+            return NO_ERROR;
+        } break;
+
+        case REMOVE_EVENT_LISTENER: {
+            CHECK_INTERFACE(ICommService, data, reply);
+            sp<IEventListener> listener = interface_cast<IEventListener>(data.readStrongBinder());
+            int result = removeEventListener(listener);
+            reply->writeInt32(result);
+            return NO_ERROR;
+        } break;
+
+        case DUMP: {
+            CHECK_INTERFACE(ICommService, data, reply);
+            const char* name = data.readCString();
+            int result = dump();
             reply->writeInt32(result);
             return NO_ERROR;
         } break;

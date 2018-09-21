@@ -17,17 +17,21 @@ public:
     enum {
         SEND_EVENT = IBinder::FIRST_CALL_TRANSACTION,
         ADD_EVENT_LISTENER,
+        REMOVE_EVENT_LISTENER,
+        DUMP,
     };
 public:
     DECLARE_META_INTERFACE(CommService);
     // 定义纯虚函数, 定义接口
-    virtual int sendEvent(const char* from, const char* to, int event) = 0;
     virtual int sendEvent(const char* from, const char* to, int event, const Parcelable* parcelable) = 0;
     //virtual int sendEventIZ(int event, int param1, bool param2) = 0;
     //virtual int sendEventII(int event, int param1, int param2) = 0;
     //virtual int sendEventIS(int event, int param1, const char* param2) = 0;
     virtual int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector) = 0;
+    virtual int removeEventListener(const sp<IEventListener>& listener) = 0;
 
+    // for debug
+    virtual int dump() = 0;
 }; // end ICommService
 
 }; // end namespace android

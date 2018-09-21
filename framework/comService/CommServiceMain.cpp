@@ -21,9 +21,13 @@ using namespace android;
 
 void *thread(void *arg)
 {
-    sleep(1);
+    while(true) {
+        // 读取一个Event，如果无Event则会阻塞，直到有Event为止
+        const QueueEvent::Event& event = EventManager.instance().getEvent();
 
-    sleep(1);
+        // 向监听者分发Event
+        ListenerManager.instance().dispatch(event.event, event.parcelable);
+    }
     pthread_exit(NULL);
 }
 

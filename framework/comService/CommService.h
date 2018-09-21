@@ -33,10 +33,12 @@ public:
     ~CommService(){};
 
     // ICommService
-    int sendEvent(const char* from, const char* to, int event);
     int sendEvent(const char* from, const char* to, int event, const Parcelable* parcelable);
     int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
+    int removeEventListener(const sp<IEventListener>& listener);
 
+    // for debug
+    int dump();
 private:
 
     int mValue;

@@ -2,38 +2,45 @@
 #define FRAMEWORKS_LISTENERMANAGER_H
 
 #include "Communication.h"
+#include <List.h>
+#include <BigBitSet.h>
+#include <StrongPointer.h>
+#include <Singleton.h>
+#include <hashmap.h>
 
-// 结构体 _event_listener
-typedef struct _event_listener {
-    sp<IEventListener> listener,
-    String16 name;
-    std::vector<int> events;
-    struct _event_listener* next;
-} _event_listener;
+namespace android
+{
 
-typedef struct _event_listener* p_event_listener;
-extern p_event_listener listenerHead;
-extern p_event_listener listenerTail;
+class ListenerManager : public Singleton<ListenerManager>
+{
+public:
+    ListenerManager();
+    ~ListenerManager();
+    // 初始化
+    void initListenerManager();
+    // 删除监听
+    void removeListener(const sp<IEventListener>& l);
+    // 添加监听
+    void addListener(const sp<IEventListener>& l, const String16& n, const std::vector<int>& events);
 
-// 添加 listener
-void addListener(p_event_listener l);
+    // 分发消息
+    void dispatch(int event, Parcelable* p);
 
-// 结构体 _listener
-typedef struct _listener {
-    p_event_listener l;
-    typedef struct _listener* next;
-} _listener;
-typedef struct _listener* p_listener;
+private:
+    // 结构体 _event_listener
+    typedef struct _event_listener {
+        sp<IEventListener> listener;
+        String16 name;
+        BigBitSet events;
+    } _event_listener;
 
-extern p_listener* events;
+    typedef struct _event_listener* p_event_listener;
 
-// 初始化
-void initListenerManager();
+private:
+    HashMap* mListenerMap;
+    Vector<List<p_event_listener>> mEvents;
+}; // end class ListenerManager
 
-// 添加监听
-void addListener(const sp<IEventListener>& l, const String16& n, const std::vector<int>& events);
-
-// 查找监听
-p_event_listener findListener(const sp<IEventListener>& l);
+}; // end namespace android
 
 #endif //FRAMEWORKS_LISTENERMANAGER_H
