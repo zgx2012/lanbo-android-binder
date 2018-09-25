@@ -19,6 +19,7 @@ namespace android {
 //-----------------------------------------------------------------
 #define EVENT_HELLO             (EVENT_MASK | 0x01)
 
+#define MIN(a, b)               (((a)<=(b))?(a):(b))
 #define MAX_EVENT_NUM           (MIN(EVENT_MASK>>1, 200))
 //-----------------------------------------------------------------
 

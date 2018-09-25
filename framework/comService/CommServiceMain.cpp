@@ -16,6 +16,8 @@
 #include "communication/Communication.h"
 #include "BaseModuleFactory.h"
 #include "communication/ModuleFactory.h"
+#include "EventManager.h"
+#include "ListenerManager.h"
 
 using namespace android;
 
@@ -23,10 +25,10 @@ void *thread(void *arg)
 {
     while(true) {
         // 读取一个Event，如果无Event则会阻塞，直到有Event为止
-        const QueueEvent::Event& event = EventManager.instance().getEvent();
+        const EventManager::Event& event = EventManager::getInstance().getEvent();
 
         // 向监听者分发Event
-        ListenerManager.instance().dispatch(event.event, event.parcelable);
+        ListenerManager::getInstance().dispatch(event.event, event.parcelable);
     }
     pthread_exit(NULL);
 }

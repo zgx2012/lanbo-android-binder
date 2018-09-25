@@ -18,7 +18,7 @@ public:
         SEND_EVENT = IBinder::FIRST_CALL_TRANSACTION,
         ADD_EVENT_LISTENER,
         REMOVE_EVENT_LISTENER,
-        DUMP,
+        DUMP_LISTENER,
     };
 public:
     DECLARE_META_INTERFACE(CommService);
@@ -31,7 +31,7 @@ public:
     virtual int removeEventListener(const sp<IEventListener>& listener) = 0;
 
     // for debug
-    virtual int dump() = 0;
+    virtual int dumpListener() = 0;
 }; // end ICommService
 
 }; // end namespace android

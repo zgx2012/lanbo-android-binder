@@ -16,21 +16,6 @@ IMPLEMENT_GET_SERVICE(CommService)
 namespace android
 {
 
-int CommServiceModule::sendEvent(const char* from, const char* to, const int event)
-{
-    int result = RESULT_NO_ERROR;
-    // 远程调用
-    sp<ICommService> pService = getCommService(COMM_SERVICE_NAME);
-    if (pService == 0) {
-        printf("[CommServiceModule::dispatchEvent] not such service: [%s]\n", COMM_SERVICE_NAME);
-        result = RESULT_NO_SUCH_SERVICE;
-    } else {
-        int result = pService->sendEvent(from, to, event);
-    }
-
-    return result;
-}
-
 int CommServiceModule::sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable)
 {
     int result = RESULT_NO_ERROR;

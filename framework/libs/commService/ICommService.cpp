@@ -55,11 +55,11 @@ public:
         return reply.readInt32();
     }
 
-    virtual int dump()
+    virtual int dumpListener()
     {
         Parcel data, reply;
         data.writeInterfaceToken(ICommService::getInterfaceDescriptor());
-        status_t status = remote()->transact(ICommService::DUMP, data, &reply);
+        status_t status = remote()->transact(ICommService::DUMP_LISTENER, data, &reply);
         if (status != NO_ERROR) {
             return RESULT_ERROR;
         }

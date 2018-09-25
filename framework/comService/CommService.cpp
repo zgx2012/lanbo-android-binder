@@ -10,6 +10,9 @@
 #include "IReturnCallback.h"
 #include "communication/Communication.h"
 #include "CommService.h"
+#include "EventManager.h"
+#include "ListenerManager.h"
+#include "SomeArgs.h"
 
 namespace android {
 
@@ -17,8 +20,8 @@ int CommService::sendEvent(const char* from, const char* to, int event, const Pa
 {
     printf("%s: %d\n", __FUNCTION__, event);
     AutoMutex lock(mServiceLock);
-    QueueEvent::Event e(event, parcelable);
-    EventManager.instance().putEvent(e);
+    EventManager::Event e(event, parcelable);
+    EventManager::getInstance().putEvent(e);
     return RESULT_NO_ERROR;
 }
 
@@ -27,7 +30,7 @@ int CommService::addEventListener(const char* name, const sp<IEventListener>& li
     AutoMutex lock(mServiceLock);
 
     // 将listener, name 保存起来
-    ListenerManager.instance().addListener(listener, String16(name), eventVector);
+    ListenerManager::getInstance().addListener(listener, String16(name), eventVector);
 
     return RESULT_NO_ERROR;
 }
@@ -37,14 +40,14 @@ int CommService::removeEventListener(const sp<IEventListener>& listener)
 
     AutoMutex lock(mServiceLock);
 
-    ListenerManager.instance().removeListener(listener);
+    ListenerManager::getInstance().removeListener(listener);
 
     return RESULT_NO_ERROR;
 }
 
-int CommService::dump()
+int CommService::dumpListener()
 {
-    printf("dump\n");
+    printf("dumpListener\n");
     return RESULT_NO_ERROR;
 }
 // ----------------------------------------------------------------------
@@ -84,10 +87,10 @@ status_t BnCommService::onTransact(
             return NO_ERROR;
         } break;
 
-        case DUMP: {
+        case DUMP_LISTENER: {
             CHECK_INTERFACE(ICommService, data, reply);
             const char* name = data.readCString();
-            int result = dump();
+            int result = dumpListener();
             reply->writeInt32(result);
             return NO_ERROR;
         } break;

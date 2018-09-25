@@ -47,13 +47,6 @@ int addEventListener(const char* from, const sp<IEventListener>& listener, const
     return result;
 }
 
-int sendEvent(const char* from, const char* to, const int event)
-{
-    printf("sendEvent [%s] -> [%s]:", from, to);
-    //int result = getModule(to)->dispatchEvent(from, event, ap);
-    int result = getModule(MODULE_COMM_SERVICE)->sendEvent(from, to, event);
-    return result;
-}
 int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable)
 {
     printf("sendEvent [%s] -> [%s]:", from, to);

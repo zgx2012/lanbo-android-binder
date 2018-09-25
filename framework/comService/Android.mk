@@ -4,12 +4,14 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES:= \
     CommService.cpp \
     CommServiceMain.cpp \
+    ListenerManager.cpp \
+    EventManager.cpp \
 
 LOCAL_SHARED_LIBRARIES := \
+	libbinder \
     libutils \
     libcutils \
     liblog \
-    libbinder \
     libbasecomm \
     libcommunication \
     libcommservice \

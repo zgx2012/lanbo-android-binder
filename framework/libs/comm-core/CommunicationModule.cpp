@@ -15,10 +15,6 @@ CommunicationModule::CommunicationModule(const String16& name) {
 CommunicationModule::~CommunicationModule() {
 }
 
-int CommunicationModule::sendEvent(const char* name, const char* to, const int event) {
-    return RESULT_NO_ERROR;
-}
-
 int CommunicationModule::sendEvent(const char* name, const char* to, const int event, const Parcelable* parcelable) {
     return RESULT_NO_ERROR;
 }

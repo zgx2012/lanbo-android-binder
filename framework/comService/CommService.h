@@ -38,7 +38,7 @@ public:
     int removeEventListener(const sp<IEventListener>& listener);
 
     // for debug
-    int dump();
+    int dumpListener();
 private:
 
     int mValue;

@@ -3,26 +3,26 @@
 namespace android
 {
 
-void EventQueue::enqueue(const Event& e)
+void EventManager::EventQueue::enqueue(const EventManager::Event& e)
 {
-    mEventList.push_back(e);
-    mCondition.signal();
+    if (mEventList == NULL) mEventList = new List<EventManager::Event>;
+    mEventList->push_back(e);
+    mCondition->signal();
 }
 
-Event& EventQueue::dequeue() const
+EventManager::Event& EventManager::EventQueue::dequeue() const
 {
-    if (mEventList.empty()) {
-        mCondition.wait(mLock);
+    if (mEventList == NULL || mEventList->empty()) {
+        mCondition->wait(*mLock);
     }
-    List<Event>::iterator it = mEventList.begin();
-    const Event& event = *it;
-    mEventList.erase(it);
+    List<EventManager::Event>::iterator it = mEventList->begin();
+    Event& event = *it;
+    mEventList->erase(it);
     return event;
 }; // end class EventQueue
 
 
 ANDROID_SINGLETON_STATIC_INSTANCE(EventManager);
-
 EventManager::EventManager():Singleton<EventManager>()
 {
 }
@@ -31,12 +31,12 @@ EventManager::~EventManager()
 {
 }
 
-Event& EventManager::getEvent() const
+EventManager::Event& EventManager::getEvent() const
 {
     return mQueue.dequeue();
 }
 
-void EventManager::putEvent(const Event& event)
+void EventManager::putEvent(const EventManager::Event& event)
 {
     mQueue.enqueue(event);
 }

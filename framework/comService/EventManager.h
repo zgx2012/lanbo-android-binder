@@ -1,15 +1,17 @@
 #ifndef FRAMEWORKS_EVENTMANAGER_H
 #define FRAMEWORKS_EVENTMANAGER_H
 
-#include <List.h>
-#include <Mutex.h>
-#include <Singleton.h>
+#include <utils/Singleton.h>
+#include <utils/Mutex.h>
+#include <utils/List.h>
+#include <binder/Parcelable.h>
 
 namespace android
 {
 
-class EventQueue
+class EventManager : public Singleton<EventManager>
 {
+
 public:
     class Event {
     public:
@@ -17,32 +19,36 @@ public:
         inline ~Event() {}
 
         int event;
-        Parcelable *parcelable;
-    };
+        const Parcelable *parcelable;
+    }; // end class Event
 
-public:
-    EventQueue(){}
-    ~EventQueue(){}
+    class EventQueue
+    {
+    public:
+        EventQueue(){
+            mLock = new Mutex;
+            mCondition = new Condition;
+        }
+        ~EventQueue(){
+            delete mCondition;
+            delete mLock;
+        }
 
-public:
-    void enqueue(const Event& e);
-    Event& dequeue() const;
+        void enqueue(const Event& e);
+        Event& dequeue() const;
 
-private:
-    Condition mCondition;
-    Mutex mLock;
-    List<Event> mEventList;
+    private:
+        Condition *mCondition;
+        Mutex *mLock;
+        List<Event> *mEventList;
 
-}; // end class EventQueue
+    }; // end class EventQueue
 
-class EventManager : public Singleton<EventManager>
-{
 public:
     EventManager();
     ~EventManager();
 
-public:
-    Event& EventManager::getEvent() const;
+    Event& getEvent() const;
     void putEvent(const Event& event);
 
 private:
