@@ -15,6 +15,7 @@ struct BigBitSet {
     inline BigBitSet() : value(0ULL) { }
     explicit inline BigBitSet(uint64_t value) : value(value) { }
 
+    inline uint64_t getValue() { return value; }
     // Gets the value associated with a particular bit index.
     static inline uint64_t valueForBit(uint32_t n) { return 0x8000000000000000ULL >> n; }
 

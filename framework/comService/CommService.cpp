@@ -45,9 +45,17 @@ int CommService::removeEventListener(const sp<IEventListener>& listener)
     return RESULT_NO_ERROR;
 }
 
+status_t CommService::dump(int fd, const Vector<String16>& args)
+{
+    dumpListener();
+    return NO_ERROR;
+}
+
 int CommService::dumpListener()
 {
     printf("dumpListener\n");
+    EventManager::getInstance().dump();
+    ListenerManager::getInstance().dump();
     return RESULT_NO_ERROR;
 }
 // ----------------------------------------------------------------------

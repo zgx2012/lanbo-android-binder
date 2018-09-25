@@ -41,6 +41,11 @@ void EventManager::putEvent(const EventManager::Event& event)
     mQueue.enqueue(event);
 }
 
+void EventManager::dump()
+{
+    // start dump event queue
+}
+
 }; // end namespace android
 
 

@@ -3,6 +3,7 @@
 
 #include <utils/Singleton.h>
 #include <utils/List.h>
+#include <utils/RWLock.h>
 #include <utils/StrongPointer.h>
 #include <cutils/hashmap.h>
 
@@ -14,7 +15,7 @@ namespace android
 
 class ListenerManager : public Singleton<ListenerManager>
 {
-private:
+public:
     // 结构体 _event_listener
     typedef struct _event_listener {
         sp<IEventListener> listener;
@@ -37,6 +38,9 @@ public:
     // 分发消息
     void dispatch(int event, const Parcelable* p);
 
+    // for debug
+    void dump();
+
 private:
     void addEvents(p_event_listener value, const BigBitSet& events);
     void removeEvents(const sp<IEventListener>& l, const BigBitSet& events);
@@ -44,6 +48,7 @@ private:
 private:
     Hashmap* mListenerMap;
     Vector<List<p_event_listener>*> mEvents;
+    RWLock mRWLock;
 }; // end class ListenerManager
 
 }; // end namespace android

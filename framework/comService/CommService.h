@@ -38,6 +38,7 @@ public:
     int removeEventListener(const sp<IEventListener>& listener);
 
     // for debug
+    status_t dump(int fd, const Vector<String16>& args);
     int dumpListener();
 private:
 

@@ -51,6 +51,9 @@ public:
     Event& getEvent() const;
     void putEvent(const Event& event);
 
+    // for debug
+    void dump();
+
 private:
     EventQueue mQueue;
 

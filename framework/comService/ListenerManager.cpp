@@ -113,4 +113,31 @@ void ListenerManager::dispatch(int event, const Parcelable* p) {
     }
 }
 
+static bool callback(void* key, void* value, void* context) {
+    const IEventListener* l = (IEventListener*) key;
+    ListenerManager::p_event_listener pl = (ListenerManager::p_event_listener) value;
+    printf("%p, {%s, %p, %0lx}\n", l, pl->name.string(), pl->listener.get(), pl->events.getValue());
+    return true;
+}
+
+void ListenerManager::dump() {
+    // start dump listeners
+    RWLock::AutoRLock rLock(mRWLock);
+
+    printf("Events:\n");
+    for(int i = 0; i < mEvents.size(); i++) {
+        List<p_event_listener>* list = mEvents[i];
+        if (list == NULL) continue;
+        printf("\n[%d]", i);
+        List<p_event_listener>::iterator it = list->begin();
+        for(; it != list->end(); it++) {
+            printf("->{%s, %p, %0lx}", (*it)->name.string(), (*it)->listener.get(), (*it)->events.getValue());
+        }
+    }
+    printf("\n");
+    printf("Listeners:\n");
+    hashmapForEach(mListenerMap, callback, NULL);
+    //mListenerMap
+}
+
 }; // end namespace android
