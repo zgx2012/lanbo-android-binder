@@ -4,6 +4,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES:= \
     ModuleAService.cpp \
     ModuleAMain.cpp \
+    EventListener.cpp \
 
 LOCAL_SHARED_LIBRARIES := \
     libutils \

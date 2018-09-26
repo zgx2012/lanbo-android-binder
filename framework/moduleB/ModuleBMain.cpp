@@ -17,6 +17,7 @@
 #include "BaseModuleFactory.h"
 #include "communication/ModuleFactory.h"
 #include "ReturnCallback.h"
+#include "SomeArgs.h"
 
 using namespace android;
 
@@ -35,7 +36,9 @@ void *thread(void *arg)
     //sleep(1);
     //methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
-    //sendEvent(MODULE_NAME_B, MODULE_NAME_A, EVENT_HELLO);
+    SomeArgs* args = new SomeArgs;
+    args->arg1 = "my name is lanbo!";
+    sendEvent(MODULE_NAME_B, MODULE_NAME_A, EVENT_HELLO, args);
     //methodCall(MODULE_NAME_B, MODULE_NAME_A, METHOD_SET_VALUE, 100);
 
     //sendToModuleA(MODULE_NAME_B, EVENT_ADD, 3, 4);
@@ -52,9 +55,6 @@ int main(int argc, char* const argv[])
     sp<IServiceManager> sm = defaultServiceManager();
     ALOGI("ServiceManager: %p", sm.get());
     ModuleBService::instantiate();
-
-    bpReturnMethod = bpReturnMethodImpl;
-    bnReturnMethod = bnReturnMethodImpl;
 
     gModuleFactory = &(ModuleFactory::getInstance());
     sp<MethodAddCallback> p = new MethodAddCallback();

@@ -5,6 +5,7 @@
 #include <utils/Mutex.h>
 #include <utils/List.h>
 #include <binder/Parcelable.h>
+#include "SomeArgs.h"
 
 namespace android
 {
@@ -15,11 +16,15 @@ class EventManager : public Singleton<EventManager>
 public:
     class Event {
     public:
-        inline Event(int e, const Parcelable* p) : event(e), parcelable(p)  {}
-        inline ~Event() {}
+        inline Event(int e, const Parcelable* p) : event(e) {
+            args = new SomeArgs;
+            SomeArgs* a = (SomeArgs*) p;
+            args->copyFrom(a);
+        }
+        inline ~Event() { delete args; }
 
         int event;
-        const Parcelable *parcelable;
+        SomeArgs* args;
     }; // end class Event
 
     class EventQueue
@@ -34,13 +39,13 @@ public:
             delete mLock;
         }
 
-        void enqueue(const Event& e);
-        Event& dequeue() const;
+        void enqueue(Event* e);
+        Event* dequeue() const;
 
     private:
         Condition *mCondition;
         Mutex *mLock;
-        List<Event> *mEventList;
+        List<Event*> *mEventList;
 
     }; // end class EventQueue
 
@@ -48,8 +53,8 @@ public:
     EventManager();
     ~EventManager();
 
-    Event& getEvent() const;
-    void putEvent(const Event& event);
+    Event* getEvent() const;
+    void putEvent(Event* event);
 
     // for debug
     void dump();

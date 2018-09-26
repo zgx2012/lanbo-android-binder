@@ -38,9 +38,6 @@ int main(int argc, char* const argv[])
     ALOGI("ServiceManager: %p", sm.get());
     ModuleCService::instantiate();
 
-    bpReturnMethod = bpReturnMethodImpl;
-    bnReturnMethod = bnReturnMethodImpl;
-
     gModuleFactory = &(ModuleFactory::getInstance());
 
     pthread_t tid;

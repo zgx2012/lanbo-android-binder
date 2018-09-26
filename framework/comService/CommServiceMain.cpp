@@ -25,10 +25,10 @@ void *thread(void *arg)
 {
     while(true) {
         // 读取一个Event，如果无Event则会阻塞，直到有Event为止
-        const EventManager::Event& event = EventManager::getInstance().getEvent();
+        const EventManager::Event* event = EventManager::getInstance().getEvent();
 
         // 向监听者分发Event
-        ListenerManager::getInstance().dispatch(event.event, event.parcelable);
+        ListenerManager::getInstance().dispatch(event->event, event->args);
     }
     pthread_exit(NULL);
 }

@@ -17,11 +17,11 @@ class ListenerManager : public Singleton<ListenerManager>
 {
 public:
     // 结构体 _event_listener
-    typedef struct _event_listener {
+    struct _event_listener {
         sp<IEventListener> listener;
-        String16 name;
+        char* name;
         BigBitSet events;
-    } _event_listener;
+    };
 
     typedef struct _event_listener* p_event_listener;
 
@@ -33,7 +33,7 @@ public:
     // 删除监听
     void removeListener(const sp<IEventListener>& l);
     // 添加监听
-    void addListener(const sp<IEventListener>& l, const String16& n, const std::vector<int>& events);
+    void addListener(const sp<IEventListener>& l, const char* n, const std::vector<int>& events);
 
     // 分发消息
     void dispatch(int event, const Parcelable* p);
@@ -47,7 +47,7 @@ private:
 
 private:
     Hashmap* mListenerMap;
-    Vector<List<p_event_listener>*> mEvents;
+    List<p_event_listener>** mEvents;
     RWLock mRWLock;
 }; // end class ListenerManager
 

@@ -55,11 +55,4 @@ int sendEvent(const char* from, const char* to, const int event, const Parcelabl
     return result;
 }
 
-int sendEventSync(const char* from, const char* to, const int event)
-{
-    printf("sendEventSync [%s] -> [%s]:", from, to);
-    int result = getModule(MODULE_COMM_SERVICE)->sendEventSync(from, to, event);
-    return result;
-}
-
 }; // end namespace android

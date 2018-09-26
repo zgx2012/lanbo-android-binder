@@ -9,19 +9,21 @@ namespace android
 class SomeArgs : public Parcelable
 {
 public:
-    SomeArgs(){}
-    virtual ~SomeArgs(){}
+    SomeArgs();
+    ~SomeArgs();
 
-    virtual status_t writeToParcel(Parcel* parcel) const;
-    virtual status_t readFromParcel(const Parcel* parcel);
+    status_t writeToParcel(Parcel* parcel) const;
+    status_t readFromParcel(const Parcel* parcel);
+    void copyFrom(const SomeArgs& a);
+    void copyFrom(const SomeArgs* a);
 
 public:
-    String16 arg1;
-    String16 arg2;
-    String16 arg3;
-    String16 arg4;
-    String16 arg5;
-    String16 arg6;
+    char* arg1;
+    char* arg2;
+    char* arg3;
+    char* arg4;
+    char* arg5;
+    char* arg6;
     int argi1;
     int argi2;
     int argi3;

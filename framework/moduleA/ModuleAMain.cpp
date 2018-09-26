@@ -16,6 +16,7 @@
 #include "communication/Communication.h"
 #include "BaseModuleFactory.h"
 #include "communication/ModuleFactory.h"
+#include "EventListener.h"
 
 using namespace android;
 
@@ -26,6 +27,10 @@ void *thread(void *arg)
     //sendToModuleA(MODULE_NAME_A, EVENT_ADD, 3, 4);
     //sendToModuleB(MODULE_NAME_A, EVENT_ADD, 5, 6);
     //sendToModuleC(MODULE_NAME_A, EVENT_ADD, 7, 8);
+    sp<EventListener> listener = new EventListener();
+    std::vector<int> events;
+    events.push_back(EVENT_HELLO);
+    addEventListener(MODULE_NAME_A, listener, events);
 
     sleep(1);
     pthread_exit(NULL);
@@ -37,9 +42,6 @@ int main(int argc, char* const argv[])
     sp<IServiceManager> sm = defaultServiceManager();
     ALOGI("ServiceManager: %p", sm.get());
     ModuleAService::instantiate();
-
-    bpReturnMethod = bpReturnMethodImpl;
-    bnReturnMethod = bnReturnMethodImpl;
 
     gModuleFactory = &(ModuleFactory::getInstance());
 

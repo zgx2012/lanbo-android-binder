@@ -20,24 +20,25 @@ int CommService::sendEvent(const char* from, const char* to, int event, const Pa
 {
     printf("%s: %d\n", __FUNCTION__, event);
     AutoMutex lock(mServiceLock);
-    EventManager::Event e(event, parcelable);
+    EventManager::Event* e = new EventManager::Event(event, parcelable);
     EventManager::getInstance().putEvent(e);
     return RESULT_NO_ERROR;
 }
 
 int CommService::addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector)
 {
+    printf("%s, %s\n", __FUNCTION__, name);
     AutoMutex lock(mServiceLock);
 
     // 将listener, name 保存起来
-    ListenerManager::getInstance().addListener(listener, String16(name), eventVector);
+    ListenerManager::getInstance().addListener(listener, name, eventVector);
 
     return RESULT_NO_ERROR;
 }
 
 int CommService::removeEventListener(const sp<IEventListener>& listener)
 {
-
+    printf("%s\n", __FUNCTION__);
     AutoMutex lock(mServiceLock);
 
     ListenerManager::getInstance().removeListener(listener);

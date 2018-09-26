@@ -19,10 +19,6 @@ int CommunicationModule::sendEvent(const char* name, const char* to, const int e
     return RESULT_NO_ERROR;
 }
 
-int CommunicationModule::sendEventSync(const char* name, const char* to, const int event) {
-    return RESULT_NO_ERROR;
-}
-
 int CommunicationModule::addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector) {
     return RESULT_NO_ERROR;
 }

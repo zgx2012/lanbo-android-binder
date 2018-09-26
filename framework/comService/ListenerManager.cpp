@@ -1,5 +1,9 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "ListenerManager.h"
 #include "IEventListener.h"
+#include "SomeArgs.h"
 
 namespace android
 {
@@ -21,16 +25,24 @@ ListenerManager::~ListenerManager() {
 }
 
 void ListenerManager::initListenerManager() {
-    mEvents.setCapacity(MAX_EVENT_NUM);
+    printf("%s\n", __FUNCTION__);
+    //mEvents.setCapacity(MAX_EVENT_NUM);
+    mEvents = (List<p_event_listener>**)malloc(MAX_EVENT_NUM * sizeof(List<p_event_listener>*));
+    for(int i=0;i<MAX_EVENT_NUM;i++) {
+        mEvents[i]=NULL;
+    }
     mListenerMap = hashmapCreate(64, hash, equals);
 }
 
 void ListenerManager::removeListener(const sp<IEventListener>& l) {
+    printf("%s\n", __FUNCTION__);
     p_event_listener value = (p_event_listener)hashmapRemove(mListenerMap, l.get());
     if (value == 0) return;
 
     //value->listener;
-    //value->name;
+    if (value->name != NULL) {
+        free(value->name);
+    };
     //value->events;
 
     removeEvents(l, value->events);
@@ -38,7 +50,8 @@ void ListenerManager::removeListener(const sp<IEventListener>& l) {
     delete value;
 }
 
-void ListenerManager::addListener(const sp<IEventListener>& l, const String16& n, const std::vector<int>& events) {
+void ListenerManager::addListener(const sp<IEventListener>& l, const char* n, const std::vector<int>& events) {
+    printf("%s %s\n", __FUNCTION__, n);
     BigBitSet eventSet, moreSet, mergedSet;
     for(int i=0;i<events.size();i++) {
         int index = ((~EVENT_MASK) & events[i]); // event unmark
@@ -46,21 +59,28 @@ void ListenerManager::addListener(const sp<IEventListener>& l, const String16& n
     }
     moreSet = eventSet;
     mergedSet = eventSet;
+    printf("events: %0lx\n", mergedSet.getValue());
 
+    printf("get old listener\n");
     // 创建listener
     p_event_listener value = (p_event_listener)hashmapGet(mListenerMap, l.get());
     const std::vector<int> increased;
     if (value == 0) {
-        p_event_listener value = new _event_listener;
+        printf("no old listener\n");
+        value = new _event_listener;
     } else {
         // find diff events
         moreSet = ((~(value->events)) & eventSet); // moreSet = new event set - old event set
         mergedSet |= value->events; // mregedSet = new event set + old event set
     }
-    value->listener = l;
-    value->name = n;
     value->events = mergedSet;
+    value->listener = l;
+    int len = n == NULL ? 0 : strlen(n);
+    value->name = (char*)malloc(len+1);
+    memcpy(value->name, n, len);
+    value->name[len]=0;
 
+    printf("save listener\n");
     // 将listener存到map中
     hashmapPut(mListenerMap, l.get(), value);
 
@@ -69,22 +89,25 @@ void ListenerManager::addListener(const sp<IEventListener>& l, const String16& n
 }
 
 void ListenerManager::addEvents(p_event_listener value, const BigBitSet& events) {
+    printf("%s\n", __FUNCTION__);
     // 所有对应的event中，加入指向该listener的节点
     if (events.isEmpty()) return;
     int first = events.firstMarkedBit();
     int last = events.lastMarkedBit();
 
-    for(int i = first; i < last; i++) {
+    printf("first %d, last %d\n", first, last);
+    for(int i = first; i <= last; i++) {
         List<p_event_listener>* list = mEvents[i];
         if (list == NULL) {
-            list = new List<p_event_listener>;
-            mEvents.replaceAt(list, i);
+            list = mEvents[i] = new List<p_event_listener>;
+            //mEvents[i].replaceAt(list, i);
         }
         list->push_back(value);
     }
 }
 
 void ListenerManager::removeEvents(const sp<IEventListener>& l, const BigBitSet& events) {
+    printf("%s\n", __FUNCTION__);
     if (events.isEmpty()) return;
     int first = events.firstMarkedBit();
     int last = events.lastMarkedBit();
@@ -105,10 +128,15 @@ void ListenerManager::removeEvents(const sp<IEventListener>& l, const BigBitSet&
 
 void ListenerManager::dispatch(int event, const Parcelable* p) {
     int index = ((~EVENT_MASK) & event);
+    printf("%s %d %d\n", __FUNCTION__, event, index);
+
     const List<p_event_listener>* list = mEvents[index];
     if (list == NULL) return;
     List<p_event_listener>::const_iterator it = list->begin();
     for(; it != list->end(); it++) {
+        printf("dispatch event to listener\n");
+        SomeArgs* args = (SomeArgs*)p;
+        printf("args: %s\n", args->arg1);
         (*it)->listener->onEvent(event, p);
     }
 }
@@ -116,7 +144,7 @@ void ListenerManager::dispatch(int event, const Parcelable* p) {
 static bool callback(void* key, void* value, void* context) {
     const IEventListener* l = (IEventListener*) key;
     ListenerManager::p_event_listener pl = (ListenerManager::p_event_listener) value;
-    printf("%p, {%s, %p, %0lx}\n", l, pl->name.string(), pl->listener.get(), pl->events.getValue());
+    printf("%p, {%s, %p, %0lx}\n", l, pl->name, pl->listener.get(), pl->events.getValue());
     return true;
 }
 
@@ -125,13 +153,14 @@ void ListenerManager::dump() {
     RWLock::AutoRLock rLock(mRWLock);
 
     printf("Events:\n");
-    for(int i = 0; i < mEvents.size(); i++) {
+    //for(int i = 0; i < mEvents.size(); i++) {
+    for(int i = 0; i < MAX_EVENT_NUM; i++) {
         List<p_event_listener>* list = mEvents[i];
         if (list == NULL) continue;
         printf("\n[%d]", i);
         List<p_event_listener>::iterator it = list->begin();
         for(; it != list->end(); it++) {
-            printf("->{%s, %p, %0lx}", (*it)->name.string(), (*it)->listener.get(), (*it)->events.getValue());
+            printf("->{%s, %p, %0lx}", (*it)->name, (*it)->listener.get(), (*it)->events.getValue());
         }
     }
     printf("\n");

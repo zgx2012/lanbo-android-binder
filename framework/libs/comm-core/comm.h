@@ -41,22 +41,10 @@ int methodCallReturn(const char* from, const char* to, const int method, const s
 int sendEventSync(const char* from, const char* to, const int event);
 
 // 异步发送消息
-int sendEvent(const char* from, const char* to, const int event);
 int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable);
 
 // 添加消息监听, 用于接收其他程序发送的消息
 int addEventListener(const char* from, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
-
-extern void (*bpReturnMethod)(int method, Parcel& data, va_list ap);
-extern void (*bnReturnMethod)(int method, const Parcel& data);
-
-extern void (*bpEvent)(int event, Parcel& data, va_list ap);
-extern void (*bnEvent)(int event, const Parcel& data);
-/*
-int sendToModuleA(const char* from, const int event, ...);
-int sendToModuleB(const char* from, const int event, ...);
-int sendToModuleC(const char* from, const int event, ...);
-*/
 
 }; // end namespace android
 
