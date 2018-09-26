@@ -3,9 +3,6 @@
 
 namespace android {
 
-extern void (*bpSendEvent)(int event, Parcel& data, va_list ap) = 0;
-extern void (*bnSendEvent)(int event, const Parcel& data) = 0;
-
 class BpCommService: public BpInterface<ICommService>
 {
 public:

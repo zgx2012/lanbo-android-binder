@@ -2,12 +2,7 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-	comm.cpp \
-	CommunicationModule.cpp \
-	IReturnCallback.cpp \
-	IEventListener.cpp \
-	SomeArgs.cpp \
+LOCAL_SRC_FILES := $(call all-cpp-files-under, .)
 
 LOCAL_SHARED_LIBRARIES := \
 	libbinder \

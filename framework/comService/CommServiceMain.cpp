@@ -29,6 +29,7 @@ void *thread(void *arg)
 
         // 向监听者分发Event
         ListenerManager::getInstance().dispatch(event->event, event->args);
+        delete event;
     }
     pthread_exit(NULL);
 }

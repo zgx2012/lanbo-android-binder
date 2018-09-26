@@ -1,10 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-    ModuleAService.cpp \
-    ModuleAMain.cpp \
-    EventListener.cpp \
+LOCAL_SRC_FILES := $(call all-cpp-files-under, .)
 
 LOCAL_SHARED_LIBRARIES := \
     libutils \

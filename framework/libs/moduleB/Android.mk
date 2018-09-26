@@ -2,8 +2,7 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-	IModuleBService.cpp
+LOCAL_SRC_FILES:= IModuleBService.cpp
 
 LOCAL_SHARED_LIBRARIES := \
 	libbinder \

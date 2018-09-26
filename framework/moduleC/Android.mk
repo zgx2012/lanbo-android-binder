@@ -1,9 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-    ModuleCService.cpp \
-    ModuleCMain.cpp \
+LOCAL_SRC_FILES := $(call all-cpp-files-under, .)
 
 LOCAL_SHARED_LIBRARIES := \
     libutils \
