@@ -5,9 +5,6 @@
 
 namespace android {
 
-//extern void (*bpEvent)(int event, Parcel& data, va_list ap);
-//extern void (*bnEvent)(int event, const Parcel& data);
-
 class IEventListener : public IInterface
 {
 public:

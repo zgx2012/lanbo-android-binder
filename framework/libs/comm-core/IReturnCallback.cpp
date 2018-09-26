@@ -3,9 +3,6 @@
 
 namespace android {
 
-extern void (*bpReturnMethod)(int method, Parcel& data, va_list ap) = 0;
-extern void (*bnReturnMethod)(int method, const Parcel& data) = 0;
-
 class BpReturnCallback: public BpInterface<IReturnCallback>
 {
 public:
@@ -20,16 +17,7 @@ public:
         Parcel data, reply;
         data.writeInterfaceToken(IReturnCallback::getInterfaceDescriptor());
         data.writeInt32(method);
-
-        //va_list ap;
-        //va_start(ap, method);
-
-        if (bpReturnMethod != 0) {
-            //bpReturnMethod(method, data, ap);
-        }
         data.writeInt32(result);
-
-        //va_end(ap);
 
         status_t status = remote()->transact(IReturnCallback::ON_RETURN, data, &reply);
         if (status != NO_ERROR) {
@@ -52,9 +40,6 @@ status_t BnReturnCallback::onTransact(
             CHECK_INTERFACE(IReturnCallback, data, reply);
             int method = data.readInt32();
             int result = data.readInt32();
-            //if (bnReturnMethod != 0) {
-            //    bnReturnMethod(method, data);
-            //}
             onReturn(method, result);
             return NO_ERROR;
         } break;

@@ -30,6 +30,7 @@ int CommService::addEventListener(const char* name, const sp<IEventListener>& li
     printf("%s, %s\n", __FUNCTION__, name);
     AutoMutex lock(mServiceLock);
 
+    printf("%p\n", (IInterface::asBinder(listener)).get());
     // 将listener, name 保存起来
     ListenerManager::getInstance().addListener(listener, name, eventVector);
 

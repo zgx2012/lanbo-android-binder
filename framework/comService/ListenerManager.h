@@ -33,7 +33,7 @@ public:
     // 删除监听
     void removeListener(const sp<IEventListener>& l);
     // 添加监听
-    void addListener(const sp<IEventListener>& l, const char* n, const std::vector<int>& events);
+    void addListener(sp<IEventListener> l, const char* n, const std::vector<int>& events);
 
     // 分发消息
     void dispatch(int event, const Parcelable* p);

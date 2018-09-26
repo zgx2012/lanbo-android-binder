@@ -23,6 +23,10 @@ int CommunicationModule::addEventListener(const char* name, const sp<IEventListe
     return RESULT_NO_ERROR;
 }
 
+int CommunicationModule::removeEventListener(const sp<IEventListener>& listener) {
+    return RESULT_NO_ERROR;
+}
+
 int CommunicationModule::methodCall(const char* name, const int method, va_list ap) {
     return RESULT_NO_ERROR;
 }

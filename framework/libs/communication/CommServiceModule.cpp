@@ -47,5 +47,21 @@ int CommServiceModule::addEventListener(const char* name, const sp<IEventListene
     return result;
 }
 
+int CommServiceModule::removeEventListener(const sp<IEventListener>& listener)
+{
+    int result = RESULT_NO_ERROR;
+
+    // 远程调用
+    sp<ICommService> pService = getCommService(COMM_SERVICE_NAME);
+    if (pService == 0) {
+        printf("[CommServiceModule::removeEventListener] not such service: [%s]\n", COMM_SERVICE_NAME);
+        result = RESULT_NO_SUCH_SERVICE;
+    } else {
+        int result = pService->removeEventListener(listener);
+    }
+
+    return result;
+}
+
 }; // end namespace android
 

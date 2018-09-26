@@ -24,13 +24,14 @@ void *thread(void *arg)
 {
     sleep(1);
 
-    //sendToModuleA(MODULE_NAME_A, EVENT_ADD, 3, 4);
-    //sendToModuleB(MODULE_NAME_A, EVENT_ADD, 5, 6);
-    //sendToModuleC(MODULE_NAME_A, EVENT_ADD, 7, 8);
     sp<EventListener> listener = new EventListener();
     std::vector<int> events;
     events.push_back(EVENT_HELLO);
     addEventListener(MODULE_NAME_A, listener, events);
+    sleep(1);
+    addEventListener(MODULE_NAME_A, listener, events);
+    sleep(1);
+    removeEventListener(listener);
 
     sleep(1);
     pthread_exit(NULL);

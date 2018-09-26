@@ -5,9 +5,6 @@
 
 namespace android {
 
-//extern void (*bpReturnMethod)(int method, Parcel& data, va_list ap);
-//extern void (*bnReturnMethod)(int method, const Parcel& data);
-
 class IReturnCallback : public IInterface
 {
 public:

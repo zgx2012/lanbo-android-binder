@@ -23,14 +23,6 @@ namespace android {
 #define MAX_EVENT_NUM           (MIN(EVENT_MASK>>1, 200))
 //-----------------------------------------------------------------
 
-void bpReturnMethodImpl(int method, Parcel& data, va_list ap);
-void bnReturnMethodImpl(int method, const Parcel& data);
-
-void bpEventImpl(int event, Parcel& data, va_list ap);
-void bnEventImpl(int event, const Parcel& data);
-//bpReturnMethod = bpReturnMethodImpl;
-//bnReturnMethod = bnReturnMethodImpl;
-
 }; // end namespace android
 
 #endif //FRAMEWORKS_COMMUNICATION_H

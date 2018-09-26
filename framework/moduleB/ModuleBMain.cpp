@@ -30,11 +30,11 @@ void *thread(void *arg)
     sp<MethodAddCallback> p = new MethodAddCallback();
     methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
-    //sleep(1);
-    //methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
+    sleep(1);
+    methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
-    //sleep(1);
-    //methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
+    sleep(1);
+    methodCallReturn(MODULE_NAME_B, MODULE_NAME_A, METHOD_RETURN_ADD, p, 30, 40);
 
     SomeArgs* args = new SomeArgs;
     args->arg1 = "my name is lanbo!";

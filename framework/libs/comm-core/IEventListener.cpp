@@ -4,9 +4,6 @@
 
 namespace android {
 
-extern void (*bpEvent)(int event, Parcel& data, va_list ap) = 0;
-extern void (*bnEvent)(int event, const Parcel& data) = 0;
-
 class BpEventListener: public BpInterface<IEventListener>
 {
 public:

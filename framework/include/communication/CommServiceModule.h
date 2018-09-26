@@ -17,6 +17,7 @@ public:
     // 重载父类的函数
     int sendEvent(const char* from, const char* to, const int event, const Parcelable* parcelable);
     int addEventListener(const char* name, const sp<IEventListener>& listener, const std::vector<int>& eventVector);
+    int removeEventListener(const sp<IEventListener>& listener);
 }; // end class CommService
 
 }; // end namespace android
